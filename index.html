@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAPPY BIRTHDAY 2026!!!</title>
+    <style>
+        :root {
+            --primary-bg: #ff00ff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg);
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: bgChange 5s infinite alternate;
+        }
+
+        @keyframes bgChange {
+            0% { background-color: #ff00ff; }
+            33% { background-color: #00ffff; }
+            66% { background-color: #ffff00; }
+            100% { background-color: #00ff00; }
+        }
+
+        .header {
+            text-align: center;
+            padding: 50px;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 5rem;
+            text-shadow: 5px 5px #ff0000;
+            animation: wobble 1s infinite;
+        }
+
+        @keyframes wobble {
+            0% { transform: rotate(-5deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.2); }
+            100% { transform: rotate(-5deg) scale(1); }
+        }
+
+        .cake-container {
+            font-size: 10rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .cake-container:hover {
+            transform: scale(2) rotate(360deg);
+        }
+
+        #scroll-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            border: 5px solid black;
+            padding: 20px;
+            margin: 20px;
+            width: 300px;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
+            transform: rotate(var(--rotation));
+        }
+
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            background: black;
+            color: white;
+            padding: 10px 0;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            font-size: 2rem;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>HAPPY BIRTHDAY 2026!</h1>
+        <p>You don't look a day over 2,025 years old!</p>
+        <div class="cake-container" onclick="addCard()">🎂</div>
+        <p><i>(Click the cake for more love)</i></p>
+    </div>
+
+    <div id="scroll-container">
+        </div>
+
+    <div class="marquee">
+        <div id="marquee-text">
+            IT'S 2026'S BIG DAY! 🥳 NO WORK TODAY! 🥳 JUST CAKE! 🥳 2025 WAS SO LAST YEAR! 🥳 STAY HYDRATED 2026! 🥳
+        </div>
+    </div>
+
+    <script>
+        const scrollContainer = document.getElementById('scroll-container');
+        const funnyMessages = [
+            "Wow, 2026! You're getting so big!",
+            "I remember when you were just a 'future concept'.",
+            "Stop growing so fast, you're literally moving at 1 second per second.",
+            "Love, Grandma (Year 1950)",
+            "Don't listen to 2020, they were a mess.",
+            "Can I borrow 5 days? I'll pay you back in February.",
+            "2026: The Year of the... something!",
+            "You have your mother's (2024) eyes.",
+            "Are you a leap year? No? Still cute though.",
+            "I made you a sweater but it's made of binary."
+        ];
+
+        function createCard() {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.setProperty('--rotation', (Math.random() * 20 - 10) + 'deg');
+            
+            const msg = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+            card.innerHTML = `
+                <h3>To: 2026</h3>
+                <p>${msg}</p>
+                <p><strong>- From: ${Math.floor(Math.random() * 2025)}</strong></p>
+            `;
+            return card;
+        }
+
+        function addCard() {
+            scrollContainer.appendChild(createCard());
+        }
+
+        // Infinite Scroll Logic
+        window.addEventListener('scroll', () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+                for(let i=0; i<5; i++) {
+                    addCard();
+                }
+            }
+        });
+
+        // Initial cards
+        for(let i=0; i<10; i++) {
+            addCard();
+        }
+
+        // Confetti Generator
+        setInterval(() => {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.top = '-10px';
+            document.body.appendChild(confetti);
+
+            const animation = confetti.animate([
+                { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+                { transform: `translateY(100vh) rotate(720deg)`, opacity: 0 }
+            ], {
+                duration: Math.random() * 3000 + 2000,
+                easing: 'linear'
+            });
+
+            animation.onfinish = () => confetti.remove();
+        }, 100);
+
+        // Make the marquee loop
+        const marqueeText = document.getElementById('marquee-text');
+        marqueeText.innerHTML = (marqueeText.innerHTML + " ").repeat(10);
+    </script>
+</body>
+</html>
